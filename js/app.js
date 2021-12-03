@@ -25,16 +25,72 @@
     ).addTo(map);
 
 
-    console.log("hi!")
+    
 
 
-    omnivore.csv("data/pharmwithlatlon.csv").addTo(map);
+  // omnivore.csv("data/pharmwithlatlon.csv").addTo(map);
+
+    // check for errors
+
+    omnivore
+        .csv("data/pharmwithlatlon.csv")
+        .on("ready", function (e) {
+            console.log("all good so far");
+            console.log(e.target);
+            drawMap(e.target.toGeoJSON());
+           // drawLegend(e.target.toGeoJSON());
+        })
+        .on("error", function (e) {
+            console.log("there's a problem");
+            console.log(e.error[0].message);
+        });
+
+
+        function drawMap(data) {
+            // access to data here
+            console.log(data);
+            const options = {
+                pointToLayer: function (feature, ll) {
+                    return L.circleMarker(ll, {
+                        opacity: 1,
+                        weight: 2,
+                        fillOpacity: 0,
+                    });
+                },
+            };
+            // create 2 separate layers from geoJSON data
+            const girlsLayer = L.geoJson(data, options).addTo(map);
+            
+    
+            // color the layers different colors
+            girlsLayer.setStyle({
+               color: "red",
+               opacity: .2
+            });
+    
+    
+            // fit the bounds of the map to one of the layers
+            map.fitBounds(girlsLayer.getBounds(), {
+                padding: [50, 50],
+            });
+           
+    
+           //resizeCircles(girlsLayer, 2006);
+            //sequenceUI(girlsLayer);
+    
+        } // end drawMap()
+
+
+
+        
+
+
+       
 
 
 
 
-
-
+        
 
 
 
