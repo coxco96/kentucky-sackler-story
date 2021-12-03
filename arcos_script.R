@@ -116,4 +116,10 @@ sum(totalbypharmacy$countypillcount, na.rm=T)
 totalbypharmacy <- mutate(totalbypharmacy, percentstatetotal = totalpill / 119480457751)
 totalbypharmacy <- mutate(totalbypharmacy, percentstatetotal = percentstatetotal * 100)
 
-
+# export as csv files
+write.csv(countytotalbyyear, "annualcountytotals.csv")
+write.csv(totalbypharmacy, "pharmtotalpills.csv")
+write.csv(countytotals, "summedcountytotals.csv")
+write.csv(medicalfacilities, "annualpractitionerpillcount.csv")
+write.csv(pharmacies, "pharmacygeodata.csv")
+write.csv(statepopulations, "statepopulations.csv")
