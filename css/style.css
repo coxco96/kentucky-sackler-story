@@ -142,7 +142,7 @@ a {
 
 
 
-#map {
+#box-2 {
 
     background-color: ivory;
     width: 70%;
@@ -160,7 +160,7 @@ a {
     
 }
 
-#box-3 {
+#map {
     background-color: ivory;
     width: 80%;
     max-width: 100%;

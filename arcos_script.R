@@ -123,3 +123,7 @@ write.csv(countytotals, "summedcountytotals.csv")
 write.csv(medicalfacilities, "annualpractitionerpillcount.csv")
 write.csv(pharmacies, "pharmacygeodata.csv")
 write.csv(statepopulations, "statepopulations.csv")
+
+# filter pharmacies to only include pharms with lat/long info
+latlongpharm <-filter(pharmacies, lat != "NA")
+write.csv(latlonpharm, "pharmwithlatlon.csv")
