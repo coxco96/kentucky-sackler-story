@@ -59,24 +59,24 @@
                 },
             };
             // create 2 separate layers from geoJSON data
-            const girlsLayer = L.geoJson(data, options).addTo(map);
+            const pharmLayer = L.geoJson(data, options).addTo(map);
             
     
             // color the layers different colors
-            girlsLayer.setStyle({
+            pharmLayer.setStyle({
                color: "red",
                opacity: .2
             });
     
     
             // fit the bounds of the map to one of the layers
-            map.fitBounds(girlsLayer.getBounds(), {
+            map.fitBounds(pharmLayer.getBounds(), {
                 padding: [50, 50],
             });
            
     
-           //resizeCircles(girlsLayer, 2006);
-            //sequenceUI(girlsLayer);
+           //resizeCircles(pharmLayer, 2006);
+            //sequenceUI(pharmLayer);
     
         } // end drawMap()
 
