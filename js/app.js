@@ -1,11 +1,38 @@
-var map = L.map('map').setView([37.560, -85.482], 7.4, {
-    minZoom: 7,
-    maxZoom: 8,
-    zoomSnap: 0.5,
-    zoomControl: false,
+// let map = L.map('map').setView([37.560, -85.482], 7.4, {
+//     minZoom: 7,
+//     maxZoom: 8,
+//     zoomSnap: 0.5,
+//     zoomControl: false,
 
-    //maxBounds: L.latLngBounds([-6.22, 27.72], [5.76, 47.83]),
-});
+//     maxBounds: L.latLngBounds([38.843986,-89.2957132], [36.549362,-80.918608]),
+// });
+
+
+
+const map = L.map('map').setView([37.360, -85.482], 7.4, {
+    zoomSnap: 0.5,
+    maxBounds: L.latLngBounds([38.843986,-89.2957132], [36.549362,-80.918608]),
+    keyboard: false
+}
+).setMaxZoom(8)
+.setMinZoom(7);
+
+
+
+
+console.log(map.getMaxZoom());
+console.log(map.getMinZoom());
+console.log(map.getZoom());
+
+
+
+
+
+
+
+
+
+
 
 
 // mapbox API access Token
