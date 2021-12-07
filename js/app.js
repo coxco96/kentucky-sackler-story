@@ -143,7 +143,7 @@ function retrieveInfo(pharmLayer, info) {
 
    //$('h4 span').innerHTML = props.COUNTY;
 
-   $('#blue_screen').innerHTML = `<span style=" background-color: red">${props.BUYER_NAME}in ${props.BUYER_COUNTY} County</span> distributed <span style=" background-color: red">${props.pill_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span> hydrocodone and oxycodone pills in ${props.year}.`;
+   $('#blue_screen').innerHTML = `<span style=" background-color: red">${props.BUYER_NAME} in ${props.BUYER_COUNTY} County</span> distributed <span style=" background-color: red">${props.pill_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span> hydrocodone and oxycodone pills in ${props.year}.`;
    console.log($('#blue_screen'));
 
     }) // end mouseover
