@@ -167,6 +167,7 @@ a {
     opacity: 0;
     margin: 100px auto 0 auto;
     border: none;
+    /* pointer-events: none; */
 }
 
 #blue_screen {
@@ -284,3 +285,5 @@ h1 {
     border: 2px solid #812F33;
     color: ivory;
 }
+
+

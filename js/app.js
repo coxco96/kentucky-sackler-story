@@ -1,10 +1,13 @@
 const map = L.map('map').setView([38.360, -85.482], 7.4, {
-    zoomSnap: 0.5,
+    zoomSnap: .1,
+    zoomControl: false,
     maxBounds: L.latLngBounds([38.843986,-89.2957132], [36.549362,-80.918608]),
     keyboard: false
 }
 ).setMaxZoom(12)
-.setMinZoom(8);
+.setMinZoom(6);
+
+map.removeControl(map.zoomControl); // I don't under why I had to use this to get the zoom control off when zoomControl is set to false
 
 
 console.log(map.getMaxZoom());
@@ -90,7 +93,7 @@ function calcRadius(val) {
 function resizeCircles(pharmLayer, year) {
     pharmLayer.eachLayer(function (layer) {
         const radius = (calcRadius(
-            Number(layer.feature.properties[year]))*10);
+            Number(layer.feature.properties[year]))*6);
         layer.setRadius(radius);
     });
 
@@ -127,21 +130,21 @@ function retrieveInfo(pharmLayer, year) {
 
    //$('h4 span').innerHTML = props.COUNTY;
 
-   $('#blue_screen').innerHTML = `<span style=" background-color: red">${props.BUYER_NAME}</span> distributed <span style=" background-color: red">${Number(props[2006]).toFixed(2)}</span> hydrocodone and oxycodone pills per person in ${props.BUYER_COUNTY} County in ${props.year}.`;
+   $('#blue_screen').innerHTML = `<span style=" background-color: red">${props.BUYER_NAME}</span> distributed <span style=" background-color: red">${Number(props[year]).toFixed(2)}</span> hydrocodone and oxycodone pills per person in ${props.BUYER_COUNTY} County in ${year}.`;
 // commas in numbers: ${props[2006].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
    console.log($('#blue_screen'));
 
     }) // end mouseover
 
     pharmLayer.on("mouseout", function(e) {
-        info.style.display = 'none';
+        info.innerHTML = 'Hover over each pharmacy to explore how many pills it distributed.';
         e.layer.setStyle({
             fillOpacity: .01
            
         })
     }) // end mouseout
 
-    console.log(year);
+    //console.log(year);
 
     // document.addEventListener("mousemove", function (e) {
     //     // If the page is on the small screen, calculate the position of the info window
@@ -174,8 +177,9 @@ function sequenceUI(pharmLayer) {
     //console.log("sequence ui")
   // create Leaflet control for the slider
   const sliderControl = L.control({
-    position: "bottomleft",
+    position: "topleft",
 });
+
 
 sliderControl.onAdd = function (map) {
     const controls = L.DomUtil.get("slider");
