@@ -1,23 +1,10 @@
-// let map = L.map('map').setView([37.560, -85.482], 7.4, {
-//     minZoom: 7,
-//     maxZoom: 8,
-//     zoomSnap: 0.5,
-//     zoomControl: false,
-
-//     maxBounds: L.latLngBounds([38.843986,-89.2957132], [36.549362,-80.918608]),
-// });
-
-
-
-const map = L.map('map').setView([37.360, -85.482], 7.4, {
+const map = L.map('map').setView([38.360, -85.482], 7.4, {
     zoomSnap: 0.5,
     maxBounds: L.latLngBounds([38.843986,-89.2957132], [36.549362,-80.918608]),
     keyboard: false
 }
-).setMaxZoom(8)
-.setMinZoom(7);
-
-
+).setMaxZoom(12)
+.setMinZoom(8);
 
 
 console.log(map.getMaxZoom());
@@ -27,45 +14,11 @@ console.log(map.getZoom());
 
 
 
-
-
-
-
-
-
-
-
-// mapbox API access Token
-//  var accessToken = "pk.eyJ1IjoiY294Y285NiIsImEiOiJja3BrY2k0ZHgwa3Y0MnZwYTl3NWs4emJ5In0.ItwJEcRmF0LwO1DkHFgpZw";
-
-// request a mapbox raster tile layer and add to map
-// L.tileLayer(
-//         `https://api.mapbox.com/styles/v1/coxco96/ckwpuursz33ao15ohyw9i97ef/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY294Y285NiIsImEiOiJja3BrY2k0ZHgwa3Y0MnZwYTl3NWs4emJ5In0.ItwJEcRmF0LwO1DkHFgpZw`, {
-//             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-//             maxZoom: 18,
-//             //id: "light-v10",
-//             accessToken: 'pk.eyJ1IjoiY294Y285NiIsImEiOiJja3BrY2k0ZHgwa3Y0MnZwYTl3NWs4emJ5In0.ItwJEcRmF0LwO1DkHFgpZw',
-//             //mapbox://styles/coxco96/ckwpuursz33ao15ohyw9i97ef
-//             zoomControl: false,
-//         }
-//     )
-//     .addTo(map);
-
-
-
-
-
-
-
-// omnivore.csv("data/pharmwithlatlon.csv").addTo(map);
-
-// check for errors
-
 omnivore
-    .csv("data/pharmwithlatlon.csv")
+    .csv("data/updatedpharmcsv.csv")
     .on("ready", function (e) {
         console.log("all good so far");
-        console.log(e.target);
+       // console.log(e.target);
         // getPharmTotals(totalPharmPills);
         drawMap(e.target.toGeoJSON());
         // drawLegend(e.target.toGeoJSON());
@@ -99,8 +52,9 @@ function drawMap(data) {
 
     // color the layers different colors
     pharmLayer.setStyle({
-        color: "red",
-        opacity: .2
+        color: "#fc0808", // lightblue and red both look nice
+        opacity: .65,
+        fillOpacity: .1
     });
 
 
@@ -110,8 +64,8 @@ function drawMap(data) {
     });
 
     //getPharmTotals(totalPharmPills)
-    resizeCircles(pharmLayer);
-    //sequenceUI(pharmLayer);
+    resizeCircles(pharmLayer, 2007);
+    sequenceUI(pharmLayer);
 
 } // end drawMap()
 
@@ -119,7 +73,7 @@ function drawMap(data) {
 
 function calcRadius(val) {
     const radius = Math.sqrt(val / Math.PI);
-    return radius * .5; // adjust .5 as a scale factor
+    return radius; // adjust .5 as a scale factor
 } // end calcRadius function
 
 
@@ -133,29 +87,32 @@ function calcRadius(val) {
 // } // end getPharmTotals
 
 
-function resizeCircles(pharmLayer) {
+function resizeCircles(pharmLayer, year) {
     pharmLayer.eachLayer(function (layer) {
         const radius = (calcRadius(
-            Number(layer.feature.properties["pill_count"])) / 15);
+            Number(layer.feature.properties[year]))*10);
         layer.setRadius(radius);
     });
 
-    retrieveInfo(pharmLayer, infoOne);
+    retrieveInfo(pharmLayer, year);
 } // end resizeCircles
 
 
 
 
-function retrieveInfo(pharmLayer, info) {
-   
+function retrieveInfo(pharmLayer, year) {
 
+    // select the element and reference with variable
+    const info = document.querySelector('#blue_screen');
+
+    // detect mouseover events
     pharmLayer.on("mouseover", function (e) {
-       //blueScreen.style.display = "block";
+       info.style.display = "block";
        
 
          // raise opacity level as visual affordance
          e.layer.setStyle({
-            fillOpacity: 1,
+            fillOpacity: .8,
         });
 
         // access properties of target layer
@@ -165,22 +122,124 @@ function retrieveInfo(pharmLayer, info) {
     const $ = function (x) {
         return document.querySelector(x);
     };
-    console.log(props);
+    //console.log(props);
    // $('h4 span').innerHTML = props.COUNTY;
 
    //$('h4 span').innerHTML = props.COUNTY;
 
-   $('#blue_screen').innerHTML = `<span style=" background-color: red">${props.BUYER_NAME} in ${props.BUYER_COUNTY} County</span> distributed <span style=" background-color: red">${props.pill_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span> hydrocodone and oxycodone pills in ${props.year}.`;
+   $('#blue_screen').innerHTML = `<span style=" background-color: red">${props.BUYER_NAME}</span> distributed <span style=" background-color: red">${Number(props[2006]).toFixed(2)}</span> hydrocodone and oxycodone pills per person in ${props.BUYER_COUNTY} County in ${props.year}.`;
+// commas in numbers: ${props[2006].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
    console.log($('#blue_screen'));
 
     }) // end mouseover
 
     pharmLayer.on("mouseout", function(e) {
+        info.style.display = 'none';
         e.layer.setStyle({
             fillOpacity: .01
+           
         })
     }) // end mouseout
 
-    
+    console.log(year);
+
+    // document.addEventListener("mousemove", function (e) {
+    //     // If the page is on the small screen, calculate the position of the info window
+    //     if (window.innerWidth < 768) {
+    //         info.style.right = "10px";
+    //         info.style.top = `${window.innerHeight * 0.25 + 5}px`;
+    //     } else {
+    //         // Console the page coordinates to understand positioning
+    //         //   console.log(e.pageX, e.pageY);
+
+    //         // offset info window position from the mouse position
+    //         (info.style.left = `${e.pageX + 6}px`),
+    //         (info.style.top = `${e.pageY - info.offsetHeight - 25}px`);
+
+    //         // if it crashes into the right, flip it to the left
+    //         if (e.pageX + info.offsetWidth > window.innerWidth) {
+    //             info.style.left = `${e.pageX - info.offsetWidth - 6}px`;
+    //         }
+    //         // if it crashes into the top, flip it lower right
+    //         if (e.pageY - info.offsetHeight - 25 < 0) {
+    //             info.style.top = `${e.pageY + 6}px`;
+    //         }
+    //     }
+    // });
 
 } // end retrieveInfo
+
+
+function sequenceUI(pharmLayer) {
+    //console.log("sequence ui")
+  // create Leaflet control for the slider
+  const sliderControl = L.control({
+    position: "bottomleft",
+});
+
+sliderControl.onAdd = function (map) {
+    const controls = L.DomUtil.get("slider");
+
+    L.DomEvent.disableScrollPropagation(controls);
+    L.DomEvent.disableClickPropagation(controls);
+
+    return controls;
+};
+
+// add it to the map
+sliderControl.addTo(map);
+
+// add sliderYear info box
+const sliderYear = L.control({
+    position: "bottomleft",
+});
+
+// when the sliderYear box is added to the map
+sliderYear.onAdd = function () {
+    // select the slider grade box using id of it
+    const sliderBox = L.DomUtil.get("sliderYear");
+    // disable scroll and click functionality
+    L.DomEvent.disableScrollPropagation(sliderBox);
+    L.DomEvent.disableClickPropagation(sliderBox);
+    // document.querySelector("#sliderYear span").innerHTML = `${currentGrade}`;
+    
+
+    // return the selection
+    return sliderBox;
+};
+    sliderYear.addTo(map);
+    //console.log(currentGrade);
+    //console.log(document.querySelector("#sliderYear"));
+
+     // select the slider's input and listen for change
+     const slider = document.querySelector("#slider input");
+     // select the slider's input and listen for change
+     slider.addEventListener("input", function (e) {
+         console.log(e.target.value);
+
+
+         // current value of slider is current grade level
+         var year = e.target.value;
+         console.log(year);
+         
+
+         // resize the circles with updated grade level
+         resizeCircles(pharmLayer, year);
+
+             document.querySelector("#sliderYear").innerHTML = `Year: ${year}`;
+           
+         
+
+     });
+
+
+} // end sequenceUI
+
+
+
+
+
+
+
+
+
