@@ -1,10 +1,7 @@
 /*poster-gothic-atf and quara-web  */
 @import url(https://use.typekit.net/nso7jyw.css);
 
-* {
-    box-sizing: border-box;
-    /* background-color: black; */
-}
+
 
 body,
 html {
@@ -13,8 +10,7 @@ html {
     width: 100%;
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-family: "psoter-gothic-atf", sans-serif;
 }
 
 
@@ -90,12 +86,12 @@ a {
     max-width: 100%;
     height: 100%;
     opacity: 0;
-    margin: 0 auto 300px auto;
+    margin: 0 auto 200px auto;
     font-family: "poster-gothic-atf", sans-serif;
-    font-size: 24px;
+    font-size: 20px;
     font-stretch: expanded;
     text-align: center;
-    line-height: 1.5;
+    line-height: 2;
     
     
 }
@@ -123,11 +119,6 @@ a {
 }
 
 
-.title {
-    margin: 2rem auto 4rem auto;
-    border: 1px solid #333;
-}
-
 /* can uncomment for scrolly testing */
 /* .step.is-active {
     background-color: red;
@@ -142,47 +133,6 @@ a {
    background-color: inherit;
 }
 
-#first-page {
-    position: relative;
-}
-
-
-
-#box-1 {
-    position: relative;
-    /* background-color: ivory; */
-    color: ivory;
-    width: 70%;
-    max-width: 100%;
-    height: 100%;
-    opacity: 0;
-    margin: 0 auto 100px auto;
-    font-family: "poster-gothic-atf", sans-serif;
-}
-
-
-
-
-#box-2 {
-
-    position: relative;
-    /* background-color: ivory; */
-    color: ivory;
-    width: 70%;
-    max-width: 100%;
-    height: 100%;
-    opacity: 0;
-    margin: 0 auto 100px auto;
-    font-family: "poster-gothic-atf", sans-serif;
-
-}
-
-#box-2 p {
-    background-color: inherit;
-    margin: auto;
-    font-family: "poster-gothic-atf", sans-serif;
-    
-}
 
 #map {
     background-color: black;
@@ -195,7 +145,7 @@ a {
     /* pointer-events: none; */
 }
 
-#blue_screen {
+#infoBox {
     /* background-color: blue; */
     width: 100%;
     max-width: 100%;
@@ -217,7 +167,7 @@ a {
 
 }
 
-#blue_screen p {
+#infoBox p {
     font-size: 16px;
     
 }
@@ -231,7 +181,7 @@ a {
 
 }
 
-#white_screen {
+#mapTwo {
     background-color: black; /* ivory;*/
     width: 75%;
     max-width: 100%;
@@ -255,9 +205,6 @@ a {
     position: absolute;
 
 }
-
-
-
 
 
 h1 {
@@ -357,6 +304,8 @@ h1 {
 .tooltip {
     background-color: ivory;
 }
+
+
 
 
 

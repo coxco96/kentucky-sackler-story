@@ -10,14 +10,8 @@ const map = L.map('map').setView([38.360, -85.482], 7.4, {
 map.removeControl(map.zoomControl); // I don't under why I had to use this to get the zoom control off when zoomControl is set to false
 
 
-console.log(map.getMaxZoom());
-console.log(map.getMinZoom());
-console.log(map.getZoom());
 
-
-console.log(totalPharmPills);
-
-
+// load pharmacy data
 omnivore
     .csv("data/updatedpharmcsv.csv")
     .on("ready", function (e) {
@@ -45,7 +39,6 @@ function drawMap(data) {
                 opacity: 1,
                 weight: 1.5,
                 fillOpacity: .01,
-                // radius: calcRadius(getPharmTotals(totalPharmPills))
                 radius: 10
             });
         },
@@ -107,7 +100,7 @@ function resizeCircles(pharmLayer, year) {
 function retrieveInfo(pharmLayer, year) {
 
     // select the element and reference with variable
-    const info = document.querySelector('#blue_screen');
+    const info = document.querySelector('#infoBox');
 
     // detect mouseover events
     pharmLayer.on("mouseover", function (e) {
@@ -125,8 +118,6 @@ function retrieveInfo(pharmLayer, year) {
     
 
    info.innerHTML = `<span style=" background-color: red">${props.BUYER_NAME}</span> distributed <span style=" background-color: red">${Number(props[year]).toFixed(2)}</span> hydrocodone and oxycodone pills per person in ${props.BUYER_COUNTY} County in ${year}.`;
-// commas in numbers: ${props[2006].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-  //console.log($('#blue_screen'));
 
 
     }) // end mouseover
@@ -225,7 +216,7 @@ if (L.Browser.mobile) {
         zoomControl: false
     }
 
-    document.querySelector('#white_screen').style.height = '350px';
+    document.querySelector('mapTwo').style.height = '350px';
 
 
 } else {
@@ -248,8 +239,7 @@ if (L.Browser.mobile) {
 
 
 // create a Leaflet map in our division container with id of 'map'
-const mapTwo = L.map('white_screen').setView([38.360, -85.482], 7.4, options).setMaxZoom(12).setMinZoom(6);
-console.log(mapTwo);
+const mapTwo = L.map('mapTwo').setView([38.360, -85.482], 7.4, options).setMaxZoom(12).setMinZoom(6);
 mapTwo.removeControl(mapTwo.zoomControl);
 
 
@@ -428,9 +418,6 @@ console.log(eachClass);
 function drawLegend(color) {
     //create leaflet control and position:
 
-
-
-
     if (L.Browser.mobile) {
         var legend = L.control({
 
@@ -449,7 +436,7 @@ function drawLegend(color) {
         var div = L.DomUtil.create('div', 'legend');
         //insert placeholder text for now if needed:
         div.innerHTML =
-            `<h3>Pills per person</h3><span style ="background: #2e2e2e"></span><label>Data unavailable</label>`
+            `<h3>Pills per person</h3><span style ="background: ivory"></span><label>Data unavailable</label>`
 
         for (let key in myObject) {
 
