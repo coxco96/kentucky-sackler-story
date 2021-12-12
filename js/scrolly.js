@@ -40,7 +40,7 @@ function handleStepEnter(response) {
     // add to color to current step
     response.element.classList.add("is-active");
     response.element.style.opacity = 1;
-    response.element.style.animation = "fadeIn 1.5s";
+    response.element.style.animation = "fadeIn 1.25s";
 }
 
 
@@ -51,7 +51,7 @@ function handleStepExit(response) {
     response.element.classList.remove("is-active");
     if (response.direction === 'up') {
     response.element.style.opacity = 0;
-    response.element.style.animation = "fadeOut 1.5s"
+    response.element.style.animation = "fadeOut 1.25s"
     }
 
 }

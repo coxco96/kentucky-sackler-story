@@ -15,6 +15,7 @@ console.log(map.getMinZoom());
 console.log(map.getZoom());
 
 
+console.log(totalPharmPills);
 
 
 omnivore
@@ -121,56 +122,23 @@ function retrieveInfo(pharmLayer, year) {
         // access properties of target layer
     const props = e.layer.feature.properties;
 
-    // create a function with a short name to select elements
-    // const $ = function (x) {
-    //     return document.querySelector(x);
-    // };
-    //console.log(props);
-   // $('h4 span').innerHTML = props.COUNTY;
-
-   //$('h4 span').innerHTML = props.COUNTY;
+    
 
    info.innerHTML = `<span style=" background-color: red">${props.BUYER_NAME}</span> distributed <span style=" background-color: red">${Number(props[year]).toFixed(2)}</span> hydrocodone and oxycodone pills per person in ${props.BUYER_COUNTY} County in ${year}.`;
 // commas in numbers: ${props[2006].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
   //console.log($('#blue_screen'));
 
-  console.log(info);
 
     }) // end mouseover
 
     pharmLayer.on("mouseout", function(e) {
         info.innerHTML = 'Hover over each pharmacy to explore how many pills it distributed.';
         e.layer.setStyle({
-            fillOpacity: 1
+            fillOpacity: 0
            
         })
     }) // end mouseout
 
-    //console.log(year);
-
-    // document.addEventListener("mousemove", function (e) {
-    //     // If the page is on the small screen, calculate the position of the info window
-    //     if (window.innerWidth < 768) {
-    //         info.style.right = "10px";
-    //         info.style.top = `${window.innerHeight * 0.25 + 5}px`;
-    //     } else {
-    //         // Console the page coordinates to understand positioning
-    //         //   console.log(e.pageX, e.pageY);
-
-    //         // offset info window position from the mouse position
-    //         (info.style.left = `${e.pageX + 6}px`),
-    //         (info.style.top = `${e.pageY - info.offsetHeight - 25}px`);
-
-    //         // if it crashes into the right, flip it to the left
-    //         if (e.pageX + info.offsetWidth > window.innerWidth) {
-    //             info.style.left = `${e.pageX - info.offsetWidth - 6}px`;
-    //         }
-    //         // if it crashes into the top, flip it lower right
-    //         if (e.pageY - info.offsetHeight - 25 < 0) {
-    //             info.style.top = `${e.pageY + 6}px`;
-    //         }
-    //     }
-    // });
 
 } // end retrieveInfo
 
@@ -282,7 +250,7 @@ if (L.Browser.mobile) {
 // create a Leaflet map in our division container with id of 'map'
 const mapTwo = L.map('white_screen').setView([38.360, -85.482], 7.4, options).setMaxZoom(12).setMinZoom(6);
 console.log(mapTwo);
-mapTwo.removeControl(map.zoomControl);
+mapTwo.removeControl(mapTwo.zoomControl);
 
 
 
@@ -317,7 +285,7 @@ var countyLayer = $.getJSON("data/kyoxybycounty.json", function (data) {
 
     dataLayer.eachLayer(function (layer) {
         var props = layer.feature.properties;
-        console.log(props);
+       // console.log(props);
         if (props[annualPills] != 'null') {
             var toolTipInfo =
                 `<h3 class="tooltip">${(props[countyName])} County: <br> ${(props[annualPills])} pills per person per year</h3>`;
@@ -404,16 +372,16 @@ function getClassBreaks(dataLayer) {
 
 
 function getColor(value, data) {
-    if (value <= 29.9) {
-        var color = '#FF7373';
+    if (value <= 30.0) {
+        var color = '#ffa1a1';
         return color;
-    } else if (value <= 44.9) {
-        var color = '#FF3232';
+    } else if (value <= 45.0) {
+        var color = '#ff6e6e';
         return color;
-    } else if (value <= 59.9) {
+    } else if (value <= 60.0) {
         var color = '#E60000';
         return color;
-    } else if (value <= 74.9) {
+    } else if (value <= 75.0) {
         var color = '#BF0000';
         return color;
     } else if (value <= 99999) {
@@ -427,24 +395,24 @@ function getColor(value, data) {
 myObject = {
 
     classOne: {
-        color: '#FF7373',
-        range: [1, 24]
+        color: '#ffa1a1',
+        range: [1, 30]
     },
     classTwo: {
-        color: '#FF3232',
-        range: [25, 49]
+        color: '#ff6e6e',
+        range: [31, 45]
     },
     classThree: {
         color: '#E60000',
-        range: [50, 74]
+        range: [46, 60]
     },
     classFour: {
         color: '#BF0000',
-        range: [75, 99]
+        range: [61, 75]
     },
     classFive: {
         color: '#8C0000',
-        range: [100, 185]
+        range: [76, 185]
     }
 
 

@@ -22,17 +22,39 @@
     <section id="scroll">
 
         <div class="scroll__text">
+            <ul>
+            <div class="textbox step">
+                
+                <p>
+                  
+                        <li>From 2000-2017, overdose-associated hospitalization charges in the state of Kentucky totaled
+                            $1.47 billion. In these same years, 16,858 Kentucky residents lost their lives to drug
+                            overdoses.
 
-            <div id="box-1" class="step" class="anim-typewriter" data-step=1>
-                <p class="textbox"> Over two billion pain pills were legally distributed in Kentucky between 2006-2014.
+                        </li>
+                        
+                    
+
+                </p>
+            
+            </div>
+
+            <div class="textbox step" data-step=2>
+                <p>
+                    <li> From 2006-2014, 2.45 billion pain pills were legally distributed in Kentucky.
+                        If distributed evenly, that’s enough for every Kentuckian to have had 62 opioid pills.
+                    </li>
+
+
                 </p>
             </div>
+        </ul>
 
-            <div id="box-2" class="step" data-step=2>
-                <p style="text-align: center;">intro text goes here </p>
+            <div id="white_screen" class="step" data-step=6>
+                <p>step checker</p>
             </div>
 
-          
+
             <div id="map" class="step" data-step=3>
                 <div id="blue_screen">
                     <p>Hover over each pharmacy to explore how many pills it distributed.</p>
@@ -40,17 +62,18 @@
                 <!-- ui slider -->
                 <div id="slider">
                     <input type="range" class="form-range" min="2006" max="2014" value="1" step="1" />
-            </div></div>
+                </div>
+            </div>
 
-            
+
 
             <div id="purple_screen" class="step" data-step=5>
                 <p>step checker</p>
             </div>
 
-            <div id="white_screen" class="step" data-step=6>
-                <p>step checker</p>
-            </div>
+
+
+
 
             <div id="green_screen" class="step" data-step=7>
                 <p>step checker</p>
@@ -58,20 +81,21 @@
 
 
             <div id="info">
-                <h4>this one</h4></div>
+                <h4>this one</h4>
+            </div>
 
-                <div id="sliderYear">
-                    <div>
-                        <h5> Slide to change year.
-                            <span></span>
-                        </h5>
-                    </div>
+            <div id="sliderYear">
+                <div>
+                    <h5> Slide to change year.
+                        <span></span>
+                    </h5>
                 </div>
+            </div>
 
         </div>
     </section>
 
-      
+
 
 
 
@@ -93,15 +117,15 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
-        <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js">
-        </script>
+    <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js">
+    </script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://unpkg.com/intersection-observer"></script>
     <script src="https://unpkg.com/scrollama"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-  
+
     <script src='https://unpkg.com/simple-statistics@7.6.0/dist/simple-statistics.min.js'>
     </script>
 
