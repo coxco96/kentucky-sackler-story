@@ -122,24 +122,26 @@ function retrieveInfo(pharmLayer, year) {
     const props = e.layer.feature.properties;
 
     // create a function with a short name to select elements
-    const $ = function (x) {
-        return document.querySelector(x);
-    };
+    // const $ = function (x) {
+    //     return document.querySelector(x);
+    // };
     //console.log(props);
    // $('h4 span').innerHTML = props.COUNTY;
 
    //$('h4 span').innerHTML = props.COUNTY;
 
-   $('#blue_screen').innerHTML = `<span style=" background-color: red">${props.BUYER_NAME}</span> distributed <span style=" background-color: red">${Number(props[year]).toFixed(2)}</span> hydrocodone and oxycodone pills per person in ${props.BUYER_COUNTY} County in ${year}.`;
+   info.innerHTML = `<span style=" background-color: red">${props.BUYER_NAME}</span> distributed <span style=" background-color: red">${Number(props[year]).toFixed(2)}</span> hydrocodone and oxycodone pills per person in ${props.BUYER_COUNTY} County in ${year}.`;
 // commas in numbers: ${props[2006].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-   console.log($('#blue_screen'));
+  //console.log($('#blue_screen'));
+
+  console.log(info);
 
     }) // end mouseover
 
     pharmLayer.on("mouseout", function(e) {
         info.innerHTML = 'Hover over each pharmacy to explore how many pills it distributed.';
         e.layer.setStyle({
-            fillOpacity: .01
+            fillOpacity: 1
            
         })
     }) // end mouseout
@@ -238,6 +240,268 @@ sliderYear.onAdd = function () {
 
 
 } // end sequenceUI
+
+
+
+
+
+/// second map
+
+if (L.Browser.mobile) {
+    var options = {
+        //center: [37.8, -85.8],
+        // zoom: 5.6,
+        //minZoom: 5.6,
+        //maxZoom: 5.6,
+        zoomSnap: .3,
+        zoomControl: false
+    }
+
+    document.querySelector('#white_screen').style.height = '350px';
+
+
+} else {
+    var options = {
+        center: [37.8, -85.8],
+        zoom: 7.1,
+        minZoom: 7.1,
+        maxZoom: 7.1,
+        zoomSnap: .3,
+        zoomControl: false,
+
+    }
+
+}
+
+
+
+
+
+
+
+// create a Leaflet map in our division container with id of 'map'
+const mapTwo = L.map('white_screen').setView([38.360, -85.482], 7.4, options).setMaxZoom(12).setMinZoom(6);
+console.log(mapTwo);
+mapTwo.removeControl(map.zoomControl);
+
+
+
+
+
+var annualPills = 'kyoxydata_pillsperperson';
+
+var countyName = 'NAME';
+
+var countyLayer = $.getJSON("data/kyoxybycounty.json", function (data) {
+    console.log("we're in the json function");
+    //data loaded from the file is now accessible here within this function
+    var dataLayer = L.geoJson(data, {
+        style: function (feature) {
+            return {
+                color: '#2e2e2e',
+                weight: 1.2,
+                fillOpacity: .95,
+                fillColor: '#1f78bf'
+            };
+        }
+    })
+
+    //we're still in the $.getJSON function
+
+    dataLayer.addTo(mapTwo);
+    drawMapTwo(dataLayer);
+    console.log(dataLayer.getBounds())
+    mapTwo.fitBounds(dataLayer.getBounds());
+
+    
+
+    dataLayer.eachLayer(function (layer) {
+        var props = layer.feature.properties;
+        console.log(props);
+        if (props[annualPills] != 'null') {
+            var toolTipInfo =
+                `<h3 class="tooltip">${(props[countyName])} County: <br> ${(props[annualPills])} pills per person per year</h3>`;
+        } else {
+            var toolTipInfo =
+                `<h3 class="tooltip>${(props[countyName])} County <br> data unavailable</h3>`;
+        }
+
+        //console.log(props);
+        if (L.Browser.mobile) {
+            layer.bindPopup(toolTipInfo, {
+                sticky: true,
+                maxHeight: 150,
+                opacity: .8,
+                autoPan: false,
+                maxWidth: 120,
+                keepInView: true,
+                className: 'leaflet-mobile-popup'
+            }).addTo(mapTwo);
+
+        } else {
+
+            layer.bindTooltip(toolTipInfo, {
+                sticky: true,
+                opacity: .8,
+            }).addTo(mapTwo);
+        }
+    });
+}); // end $.getJSON function
+
+
+
+
+
+//	FUNCTIONS:
+
+function drawMapTwo(dataLayer) {
+    var breaks = getClassBreaks(dataLayer);
+    dataLayer.eachLayer(function (layer) {
+        var props = layer.feature.properties;
+        layer.setStyle({
+            fillColor: getColor(props[annualPills], breaks),
+            fillOpacity: .95,
+            opacity: .5,
+            weight: 1.5,
+            color: "ivory"
+          
+            
+        });
+    });
+    drawLegend(breaks);
+
+} // end drawMapTwo()
+
+
+function getClassBreaks(dataLayer) {
+    var values = [];
+    dataLayer.eachLayer(function (layer) {
+        var props = layer.feature.properties;
+        var value = Number(props[annualPills]);
+        //console.log(typeof (value));
+
+        if (props[annualPills] != 0 && value != null) {
+            values.push(value);
+            //	console.log(values);
+        }
+    });
+    //determine similar clusters 
+    var clusters = ss.ckmeans(values, 5);
+    //console.log(clusters);
+
+
+    var breaks = clusters.map(function (cluster) {
+        return [cluster[0], cluster.pop()];
+    });
+
+    //console.log(breaks);
+    return breaks;
+} // end of classBreaks function
+
+
+
+
+
+
+function getColor(value, data) {
+    if (value <= 29.9) {
+        var color = '#FF7373';
+        return color;
+    } else if (value <= 44.9) {
+        var color = '#FF3232';
+        return color;
+    } else if (value <= 59.9) {
+        var color = '#E60000';
+        return color;
+    } else if (value <= 74.9) {
+        var color = '#BF0000';
+        return color;
+    } else if (value <= 99999) {
+        var color = '#8C0000';
+        return color;
+    }
+}
+
+
+
+myObject = {
+
+    classOne: {
+        color: '#FF7373',
+        range: [1, 24]
+    },
+    classTwo: {
+        color: '#FF3232',
+        range: [25, 49]
+    },
+    classThree: {
+        color: '#E60000',
+        range: [50, 74]
+    },
+    classFour: {
+        color: '#BF0000',
+        range: [75, 99]
+    },
+    classFive: {
+        color: '#8C0000',
+        range: [100, 185]
+    }
+
+
+}
+
+console.log(Object.keys(myObject).length);
+
+var howManyClasses = Object.keys(myObject).length;
+
+eachClass = Object.keys(myObject);
+console.log(eachClass);
+
+function drawLegend(color) {
+    //create leaflet control and position:
+
+
+
+
+    if (L.Browser.mobile) {
+        var legend = L.control({
+
+
+            position: 'topleft'
+
+        });
+    } else {
+        var legend = L.control({
+            position: 'topleft'
+        })
+    }
+    //when it's added to the map:
+    legend.onAdd = function () {
+        //create a new HTML <div> element with a class name of "legend":
+        var div = L.DomUtil.create('div', 'legend');
+        //insert placeholder text for now if needed:
+        div.innerHTML =
+            `<h3>Pills per person</h3><span style ="background: #2e2e2e"></span><label>Data unavailable</label>`
+
+        for (let key in myObject) {
+
+            //var legendColor = [key][color];
+            console.log(myObject[key]["color"]);
+            var legendColor = myObject[key]["color"];
+            var legendDescription =
+                `${myObject[key]["range"][0]} - ${myObject[key]["range"][1]}`;
+            //concatenate a <span> tag styled with the color and the range value of that class and include a label with the low and high ends of that class range:
+            div.innerHTML +=
+                `<span style ="background: ${legendColor}"></span><label>${legendDescription}</label>`;
+            //console.log(color)
+        }
+        //return div element (return populated div to be added to map):
+        return div;
+    }; // end onAdd method
+    //add legend to map:
+    legend.addTo(mapTwo);
+
+} // end drawLegend function
 
 
 
