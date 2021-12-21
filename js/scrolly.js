@@ -22,7 +22,7 @@ scroller
     })
     .onStepEnter(handleStepEnter)
     .onStepExit(handleStepExit)
-    .onStepProgress(handleStepProgress);
+    //.onStepProgress(handleStepProgress);
 }
 
 
@@ -56,12 +56,6 @@ function handleStepExit(response) {
 
 }
 
-function handleStepProgress(response) {
-    console.log(response.progress);
-    d3.select(response.element)
-        .select("p")
-        .text(d3.format(".1%")(response.progress));
-}
 
 
 // { element, index, direction }

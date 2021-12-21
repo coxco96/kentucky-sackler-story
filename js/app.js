@@ -5,9 +5,26 @@ const map = L.map('map').setView([38.360, -85.482], 7.4, {
     keyboard: false
 }
 ).setMaxZoom(12)
-.setMinZoom(6);
+.setMinZoom(7);
 
-map.removeControl(map.zoomControl); // I don't under why I had to use this to get the zoom control off when zoomControl is set to false
+map.removeControl(map.zoomControl);
+
+// mapbox API access Token
+var accessToken = "pk.eyJ1IjoiY294Y285NiIsImEiOiJja3BrY2k0ZHgwa3Y0MnZwYTl3NWs4emJ5In0.ItwJEcRmF0LwO1DkHFgpZw";
+
+// request a mapbox raster tile layer and add to map
+L.tileLayer(
+    `https://api.mapbox.com/styles/v1/coxco96/ckxgnbbzp03jx15mkuxdy6q9v/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY294Y285NiIsImEiOiJja3BrY2k0ZHgwa3Y0MnZwYTl3NWs4emJ5In0.ItwJEcRmF0LwO1DkHFgpZw`, {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        maxZoom: 12,
+        //id: "light-v10",
+        accessToken: 'pk.eyJ1IjoiY294Y285NiIsImEiOiJja3BrY2k0ZHgwa3Y0MnZwYTl3NWs4emJ5In0.ItwJEcRmF0LwO1DkHFgpZw',
+        
+    }
+).addTo(map);
+
+
+
 
 
 
@@ -76,14 +93,6 @@ function calcRadius(val) {
 
 
 
-// function getPharmTotals(json) {
-//     const pharmTotals = json;
-//     return pharmTotals;
-//     //console.log(pharmTotals);
-
-// } // end getPharmTotals
-
-
 function resizeCircles(pharmLayer, year) {
     pharmLayer.eachLayer(function (layer) {
         const radius = (calcRadius(
@@ -117,7 +126,7 @@ function retrieveInfo(pharmLayer, year) {
 
     
 
-   info.innerHTML = `<span style=" background-color: red">${props.BUYER_NAME}</span> distributed <span style=" background-color: red">${Number(props[year]).toFixed(2)}</span> hydrocodone and oxycodone pills per person in ${props.BUYER_COUNTY} County in ${year}.`;
+   info.innerHTML = `<span style=" background-color: red">${props.BUYER_NAME}</span> distributed <span style=" background-color: #fc0808">${Number(props[year]).toFixed(2)}</span> hydrocodone and oxycodone pills per person in ${props.BUYER_COUNTY} County in ${year}.`;
 
 
     }) // end mouseover
@@ -138,7 +147,7 @@ function sequenceUI(pharmLayer) {
     //console.log("sequence ui")
   // create Leaflet control for the slider
   const sliderControl = L.control({
-    position: "topleft",
+    position: "bottomleft",
 });
 
 
@@ -313,11 +322,11 @@ var countyLayer = $.getJSON("data/kyoxybycounty.json", function (data) {
 //	FUNCTIONS:
 
 function drawMapTwo(dataLayer) {
-    var breaks = getClassBreaks(dataLayer);
+  //  var breaks = getClassBreaks(dataLayer);
     dataLayer.eachLayer(function (layer) {
         var props = layer.feature.properties;
         layer.setStyle({
-            fillColor: getColor(props[annualPills], breaks),
+            fillColor: getColor(props[annualPills]),
             fillOpacity: .95,
             opacity: .5,
             weight: 1.5,
@@ -326,42 +335,13 @@ function drawMapTwo(dataLayer) {
             
         });
     });
-    drawLegend(breaks);
+    drawLegend();
 
 } // end drawMapTwo()
 
 
-function getClassBreaks(dataLayer) {
-    var values = [];
-    dataLayer.eachLayer(function (layer) {
-        var props = layer.feature.properties;
-        var value = Number(props[annualPills]);
-        //console.log(typeof (value));
 
-        if (props[annualPills] != 0 && value != null) {
-            values.push(value);
-            //	console.log(values);
-        }
-    });
-    //determine similar clusters 
-    var clusters = ss.ckmeans(values, 5);
-    //console.log(clusters);
-
-
-    var breaks = clusters.map(function (cluster) {
-        return [cluster[0], cluster.pop()];
-    });
-
-    //console.log(breaks);
-    return breaks;
-} // end of classBreaks function
-
-
-
-
-
-
-function getColor(value, data) {
+function getColor(value) {
     if (value <= 30.0) {
         var color = '#ffa1a1';
         return color;
@@ -415,7 +395,7 @@ var howManyClasses = Object.keys(myObject).length;
 eachClass = Object.keys(myObject);
 console.log(eachClass);
 
-function drawLegend(color) {
+function drawLegend() {
     //create leaflet control and position:
 
     if (L.Browser.mobile) {
