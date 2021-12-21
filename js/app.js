@@ -13,7 +13,7 @@ map.removeControl(map.zoomControl); // I don't under why I had to use this to ge
 
 // load pharmacy data
 omnivore
-    .csv("data/updatedpharmcsv.csv")
+    .csv("mydata/updatedpharmcsv.csv")
     .on("ready", function (e) {
         console.log("all good so far");
        // console.log(e.target);
@@ -250,7 +250,7 @@ var annualPills = 'kyoxydata_pillsperperson';
 
 var countyName = 'NAME';
 
-var countyLayer = $.getJSON("data/kyoxybycounty.json", function (data) {
+var countyLayer = $.getJSON("mydata/kyoxybycounty.json", function (data) {
     console.log("we're in the json function");
     //data loaded from the file is now accessible here within this function
     var dataLayer = L.geoJson(data, {
