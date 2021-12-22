@@ -32,7 +32,7 @@ a {
     font-size: 2rem;
     font-family: "poster-gothic-atf", sans-serif;
     position: relative;
-    padding: 200px 10px 100px 10px;
+    padding: 200px 10px 50px 10px;
     margin: auto;
     letter-spacing: 0.05em;
 }
@@ -82,15 +82,15 @@ a {
     position: relative;
     /* background-color: ivory; */
     color: ivory;
-    width: 65%;
+    width: 90%;
     max-width: 100%;
     height: 100%;
     opacity: 0;
-    margin: 0 auto 200px auto;
+    margin: 20px auto 100px auto;
     font-family: "poster-gothic-atf", sans-serif;
-    font-size: 20px;
+    /* font-size: 12px; */
     font-stretch: expanded;
-    text-align: center;
+    /* text-align: left; */
     line-height: 2;
     
     
@@ -101,6 +101,15 @@ a {
     opacity: .85;
     
    
+}
+
+img {
+    margin: auto;
+    max-width: 100%;
+    width: 50%;
+    position: relative;
+    text-align: center;
+    display: block;
 }
 
 
@@ -125,18 +134,18 @@ a {
 } */
 
 .step p {
-    text-align: center;
+    text-align: justify;
     margin: auto;
     height: 50%;
     padding: 1rem;
-    font-size: 1.5rem;
+    font-size: 20px;
    background-color: inherit;
 }
 
 
 #map {
     /* background-color: black; */
-    width: 75%;
+    width: 55%;
     max-width: 100%;
     fill-opacity: .5;
     height: 550px;
@@ -180,7 +189,7 @@ a {
 
 #mapTwo {
     background-color: black; /* ivory;*/
-    width: 75%;
+    width: 55%;
     max-width: 100%;
     height: 550px;
     opacity: 0;

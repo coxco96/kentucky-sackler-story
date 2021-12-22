@@ -12,7 +12,7 @@ function scrollerStepClass(){
 scroller
     .setup({
         step: ".step", // HTML elements with class "step" .... required
-        offset: 0.6, // how far from top of viewport to trigger step. default is 0.5 ... optional
+        offset: 0.65, // how far from top of viewport to trigger step. default is 0.5 ... optional
         progress: false, // whether to fire step progress updates or not .... default false, optional
         threshold: 4, // granularity of progress interval in pixels (smaller = more  granular), default is 4, optional
         order: true, // fire previous step triggers if they were jumped // optional, default is true
