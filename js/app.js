@@ -126,8 +126,8 @@ function retrieveInfo(pharmLayer, year) {
 
     
 
-   info.innerHTML = `<span style=" background-color: red">${props.BUYER_NAME}</span> distributed <span style=" background-color: #fc0808">${Number(props[year]).toFixed(2)}</span> hydrocodone and oxycodone pills per person in ${props.BUYER_COUNTY} County in ${year}.`;
-
+   //info.innerHTML = `<span style=" background-color: red">${props.BUYER_NAME}</span> distributed <span style=" background-color: #fc0808">${Number(props[year]).toFixed(2)}</span> hydrocodone and oxycodone pills per person in ${props.BUYER_COUNTY} County in ${year}.`;
+    info.innerHTML = `<span style="font-weight: bold; background-color: #BF0000; background-opacity: .5;">In ${year},<br>${props.BUYER_NAME}<br>sold ${Number(props[year]).toFixed()} pills per resident<br> of <i>${props.BUYER_COUNTY} County, KY. </i><br></span>`
 
     }) // end mouseover
 
@@ -189,12 +189,12 @@ sliderYear.onAdd = function () {
      const slider = document.querySelector("#slider input");
      // select the slider's input and listen for change
      slider.addEventListener("input", function (e) {
-         console.log(e.target.value);
+        // console.log(e.target.value);
 
 
          // current value of slider is current grade level
          var year = e.target.value;
-         console.log(year);
+        // console.log(year);
          
 
          // resize the circles with updated grade level
