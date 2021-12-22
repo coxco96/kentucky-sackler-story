@@ -102,7 +102,7 @@ a {
     
    
 }
-
+iframe,
 img {
     margin: auto auto 200px auto;
     max-width: 100%;
@@ -141,6 +141,7 @@ img {
     font-size: 20px;
    background-color: inherit;
 }
+
 
 
 #map {
