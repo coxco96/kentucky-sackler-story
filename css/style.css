@@ -179,11 +179,16 @@ img {
     
 }
 
+footer p {
+    margin: auto;
+    text-align:center;
+}
+
 #purple_screen {
-    background-color: purple;
+    background-color: black;
     width: 100%;
     max-width: 100%;
-    height: 500px;
+    height: 200px;
     opacity: 0;
 
 }
@@ -200,11 +205,13 @@ img {
 }
 
 #green_screen {
-    background-color: green;
+    background-color: lightgray;
     width: 100%;
     max-width: 100%;
-    height: 500px;
+    height: 150px;
     opacity: 0;
+    margin: 150px 0 0 0;
+    
 
 }
 
